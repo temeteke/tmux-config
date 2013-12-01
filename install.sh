@@ -2,7 +2,20 @@
 
 cd `dirname $0`
 
+ver2num() {
+	versionNumber=0
+	for i in `seq 2`; do
+		num=`echo $1 | cut -d '.' -f $i` 
+		if [ -z $num ]; then 
+			num=0
+		fi
+		versionNumber=`expr $versionNumber \* 1000 + $num`
+	done
+	echo $versionNumber
+}
+
 version=`tmux -V | awk '{print $2}'`
+version=`ver2num $version`
 
 if [ -f ~/.tmux.conf ]; then
 	rm ~/.tmux.conf
@@ -20,7 +33,7 @@ if [ -f tmux.conf ]; then
 	cat tmux.conf >> ~/.tmux.conf
 fi
 
-if [ `echo "$version >= 1.8" | bc` -eq 1 ] && which xclip > /dev/null 2>&1; then
+if [ $version -ge `ver2num 1.8` ] && which xclip > /dev/null 2>&1; then
 	cat >> ~/.tmux.conf <<-_EOT_
 
 		bind-key -t vi-copy v begin-selection
