@@ -44,4 +44,10 @@ if [ $version -ge `ver2num 1.8` ] && which xclip > /dev/null 2>&1; then
 	_EOT_
 fi
 
+if which reattach-to-user-namespace  > /dev/null 2>&1; then
+	cat >> ./tmux.conf <<-_EOT_
+		set-option -g default-command "reattach-to-user-namespace -l bash"
+	_EOT_
+fi
+
 tmux source-file ~/.tmux.conf
