@@ -21,14 +21,26 @@ if [ -f tmux.conf ]; then
 	cat tmux.conf >> ~/.tmux.conf
 fi
 
-if [ $version1 -ge 1 ] && [ $version2 -ge 8 ] && which xclip > /dev/null 2>&1; then
+case `uname` in
+	CYGWIN* )
+		copy='cat > /dev/clipboard'
+		;;
+	* )
+		if which xclip > /dev/null 2>&1; then
+			copy='xclip'
+		else
+			copy=''
+		fi
+		;;
+esac
+
+if [ $version1 -ge 1 ] && [ $version2 -ge 8 ]; then
 	cat >> ~/.tmux.conf <<-_EOT_
-
 		bind-key -t vi-copy v begin-selection
-		bind-key -t vi-copy y copy-pipe "xclip"
-
+		bind-key -t vi-copy y copy-pipe "$copy"
+	
 		unbind -t vi-copy Enter
-		bind-key -t vi-copy Enter copy-pipe "xclip"
+		bind-key -t vi-copy Enter copy-pipe "$copy"
 	_EOT_
 fi
 
