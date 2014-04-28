@@ -23,7 +23,7 @@ fi
 
 case `uname` in
 	CYGWIN* )
-		copy='cat > /dev/clipboard'
+		copy='tee /dev/clipboard'
 		;;
 	* )
 		if which xclip > /dev/null 2>&1; then
