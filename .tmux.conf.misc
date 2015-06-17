@@ -31,10 +31,6 @@ bind -r C-a send-prefix	# C-aを2回押したときにアプリケーション�
 # via http://blog.tedokon.com/archives/1785
 #set-option -g default-terminal "xterm"
 
-# tmux and ssh-agent
-# via http://robinwinslow.co.uk/2012/07/20/tmux-and-ssh-auto-login-with-ssh-agent-finally.html
-set -g update-environment -r
-
 # UTF-8の設定
 # via http://d.hatena.ne.jp/tmatsuu/20090709/1247150771
 set-window-option -g utf8 on
