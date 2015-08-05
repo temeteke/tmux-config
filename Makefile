@@ -5,7 +5,7 @@ copy := ''
 ifeq ($(shell uname -o),Cygwin)
 	copy := 'tee /dev/clipboard'
 endif
-ifeq ($(shell which xclip > /dev/null 2>&1; echo $?),0)
+ifneq ($(shell which xclip),)
 	copy := 'xclip'
 endif
 
