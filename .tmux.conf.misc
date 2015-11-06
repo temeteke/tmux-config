@@ -14,12 +14,6 @@ bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 
-# マウスが使えるように
-set -g mode-mouse on
-set -g mouse-resize-pane on
-set -g mouse-select-pane on
-set -g mouse-select-window on
-
 # プレフィックスを変更
 # via http://shanon-tech.blogspot.jp/2012/05/tmux.html
 set -g prefix C-a		# -g はglobalの意味で、すべてのセッションで利用するためのオプション

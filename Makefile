@@ -9,23 +9,29 @@ ifneq ($(shell which xclip),)
 	copy := 'xclip'
 endif
 
-.tmux.conf:
-	cp .tmux.conf.misc .tmux.conf
-	echo >> .tmux.conf
-	echo "bind-key -t vi-copy v begin-selection" >> .tmux.conf
-	echo "bind-key -t vi-copy y copy-pipe $(copy)" >> .tmux.conf
-	echo "unbind -t vi-copy Enter" >> .tmux.conf
-	echo "bind-key -t vi-copy Enter copy-pipe $(copy)" >> .tmux.conf
+.tmux.conf: .tmux.conf.misc .tmux.conf.copy .tmux.conf.mouse
+	cat $+ > $@
+
+.tmux.conf.copy:
+	echo "bind-key -t vi-copy v begin-selection" >> $@
+	echo "bind-key -t vi-copy y copy-pipe $(copy)" >> $@
+	echo "unbind -t vi-copy Enter" >> $@
+	echo "bind-key -t vi-copy Enter copy-pipe $(copy)" >> $@
 	which reattach-to-user-namespace > /dev/null 2>&1 \
-		&& echo "set-option -g default-command 'reattach-to-user-namespace -l bash'" >> .tmux.conf \
+		&& echo "set-option -g default-command 'reattach-to-user-namespace -l bash'" >> $@ \
 		|| true
+
+.tmux.conf.mouse:
+	[ $$(tmux -V | awk '{print $$2}' | sed 's/[^0-9]//g') -ge 21 ] \
+		&& cp .tmux.conf.mouse.21 $@ \
+		|| cp .tmux.conf.mouse.20 $@
 
 clean:
 	rm -rf .tmux.conf
 
 install: all
 	cp .tmux.conf ~/
-	tmux source-file ~/.tmux.conf
+	[ -n "$$TMUX" ] && tmux source-file ~/.tmux.conf || echo "You are not in a tmux session."
 		
 uninstall:
 	rm -rf ~/.tmux.conf
