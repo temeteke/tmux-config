@@ -21,12 +21,16 @@ endif
 
 .tmux.conf.copy:
 	echo "bind-key -t vi-copy v begin-selection" >> $@
-	echo "bind-key -t vi-copy y copy-pipe $(copy)" >> $@
+	[ $$(tmux -V | awk '{print $$2}' | sed 's/[^0-9]//g') -ge 18 ] \
+		&& echo "bind-key -t vi-copy y copy-pipe $(copy)" >> $@ \
+		|| :
 	echo "unbind -t vi-copy Enter" >> $@
-	echo "bind-key -t vi-copy Enter copy-pipe $(copy)" >> $@
+	[ $$(tmux -V | awk '{print $$2}' | sed 's/[^0-9]//g') -ge 18 ] \
+		&& echo "bind-key -t vi-copy Enter copy-pipe $(copy)" >> $@ \
+		|| :
 	which reattach-to-user-namespace > /dev/null 2>&1 \
 		&& echo "set-option -g default-command 'reattach-to-user-namespace -l bash'" >> $@ \
-		|| true
+		|| :
 
 .tmux.conf.mouse: $(wildcard .tmux.conf.mouse.*)
 	[ $$(tmux -V | awk '{print $$2}' | sed 's/[^0-9]//g') -ge 21 ] \
