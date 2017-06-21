@@ -20,7 +20,7 @@ endif
 	cat $+ > $@
 
 .tmux.conf.copy: Makefile
-	echo "bind-key -T copy-mode-vi v send -X begin-selection" >> $@
+	echo "bind-key -T copy-mode-vi v send -X begin-selection" > $@
 	echo "bind-key -T copy-mode-vi y send -X $(copy_cmd)" >> $@
 	echo "unbind -T copy-mode-vi Enter" >> $@
 	echo "bind-key -T copy-mode-vi Enter send -X $(copy_cmd)" >> $@
