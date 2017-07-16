@@ -9,11 +9,11 @@ TEMPS := .tmux.conf.copy
 all: $(TARGETS)
 
 copy_cmd := copy-selection
-ifeq ($(shell uname -o),Cygwin)
-	copy_cmd := copy-pipe tee /dev/clipboard
+ifneq ($(wildcard /dev/clipboard),)
+	copy_cmd := copy-pipe-and-cancel \"tee /dev/clipboard\"
 endif
 ifneq ($(shell which xclip 2>/dev/null),)
-	copy_cmd := copy-pipe xclip
+	copy_cmd := copy-pipe-and-cancel xclip
 endif
 
 .tmux.conf: .tmux.conf.misc .tmux.conf.copy .tmux.conf.mouse
