@@ -18,7 +18,7 @@ bind l select-pane -R
 # via http://shanon-tech.blogspot.jp/2012/05/tmux.html
 set -g prefix C-a		# -g はglobalの意味で、すべてのセッションで利用するためのオプション
 unbind C-b				# C-bはもうprefixキーとしては使わないのでバインドを解除
-bind -r C-a send-prefix	# C-aを2回押したときにアプリケーション側にC-aが送られるように設定
+bind C-a send-prefix	# C-aを2回押したときにアプリケーション側にC-aが送られるように設定
 
 # Vimでカーソルキーで移動できるように
 # tmuxのマニュアルによると推奨されない模様
