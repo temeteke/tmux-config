@@ -28,3 +28,6 @@ bind C-a send-prefix	# C-aを2回押したときにアプリケーション側�
 # reload a configure file
 # via http://yonchu.hatenablog.com/entry/20120509/1336587523
 bind r source-file ~/.tmux.conf \; display-message "Reload Config!!"
+
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ",xterm-256color:Tc"
