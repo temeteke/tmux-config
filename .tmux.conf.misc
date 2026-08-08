@@ -31,3 +31,8 @@ bind r source-file ~/.tmux.conf \; display-message "Reload Config!!"
 
 set -g default-terminal "tmux-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
+
+# Enable tmux clipboard integration
+set -g set-clipboard on
+# Allow applications like OpenCode to bypass tmux and send OSC sequences to the terminal
+set -g allow-passthrough on
