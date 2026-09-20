@@ -1,10 +1,10 @@
 DIR := ~
 
-FILES := 
+FILES :=
 TARGETS := .tmux.conf
 TEMPS := .tmux.conf.copy
 
-.PHONY: all clean install uninstall FORCE
+.PHONY: all clean install install-config uninstall uninstall-config FORCE
 
 all: $(TARGETS)
 
@@ -34,11 +34,15 @@ clean:
 $(DIR):
 	mkdir -p $@
 
-install: $(TARGETS) $(DIR)
+install: install-config
+
+install-config: $(TARGETS) $(DIR)
 	cp $(FILES) $(TARGETS) $(DIR)/
 	[ -n "$$TMUX" ] && tmux source-file ~/.tmux.conf || echo "You are not in a tmux session."
-		
-uninstall:
+
+uninstall: uninstall-config
+
+uninstall-config:
 	rm -rf $(addprefix $(DIR)/, $(FILES) $(TARGETS))
 
 FORCE:
